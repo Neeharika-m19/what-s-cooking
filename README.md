@@ -54,3 +54,117 @@ what-s-cooking/
 ├── package.json        # NPM dependencies & metadata
 ├── package-lock.json   # Locked dependency tree
 └── README.md           # This documentation
+
+```
+
+## 📦 Installation & Setup
+
+1. **Clone the repository**
+
+    ```bash
+    git clone https://github.com/Neeharika-m19/your-project-name.git
+    cd your-project-name
+    ```
+
+2. **Install dependencies**
+
+    ```bash
+    npm install
+    ```
+## ⚙️ Configuration
+
+### Alexa Skill ID  
+Set your skill’s application ID:
+```bash
+export ALEXA_APP_ID="amzn1.ask.skill.YOUR_SKILL_ID"
+
+```
+### Spoonacular API Key
+Obtain a key from Spoonacular and export it:
+```bash
+export SPOONACULAR_KEY="YOUR_MASHAPE_KEY"
+
+```
+## DynamoDB Table
+Create a DynamoDB table named `whatsCooking` with a primary key `userId` (String) for session persistence.
+
+---
+## ☁️ Deployment
+
+### Zip your code
+```bash
+zip -r function.zip index.js package*.json node_modules
+
+```
+
+### In the AWS Lambda Console
+
+1. **Create a new function**  
+   - Runtime: Node.js 12.x
+
+2. **Upload your code**  
+   - Upload `function.zip` or connect via CLI
+
+3. **Set environment variables**  
+   - `ALEXA_APP_ID`  
+   - `SPOONACULAR_KEY`  
+   - `DYNAMODB_TABLE`
+
+4. **Assign an IAM role** with the following managed policies:  
+   - `AWSLambdaBasicExecutionRole`  
+   - `AmazonDynamoDBFullAccess`
+
+5. **Link your Lambda ARN**  
+   - In the Alexa Developer Console, under **Endpoint**, paste your Lambda function ARN.
+
+---
+
+## 🎙️ Usage
+
+Invoke your skill by name, then:
+
+- **Get recipes:**  
+  “Alexa, ask What’s Cooking what I can make with chicken and rice.”
+
+- **Add ingredients:**  
+  “Alexa, ask What’s Cooking to add tomatoes.”
+
+- **Remove ingredients:**  
+  “Alexa, ask What’s Cooking to remove chicken.”
+
+- **Confirm & cook:**  
+  “Yes” when Alexa proposes a recipe to hear instructions.
+
+- **Next suggestion:**  
+  “No” to hear another recipe suggestion.
+
+---
+
+## 🗂️ Interaction Model
+
+- **Intent Schema** (`IntentSchema.json`):  
+  Defines core intents:
+  - `NewIngredientIntent`
+  - `AddIngredientIntent`
+  - `RemoveIngredientIntent`
+  - `AMAZON.YesIntent`
+  - `AMAZON.NoIntent`
+
+- **Sample Utterances** (`utterances.txt`):  
+  ```text
+  NewIngredientIntent what can I make with {ingredients}
+  AddIngredientIntent add {ingredients}
+  RemoveIngredientIntent remove {ingredients}
+
+## Slot Values
+`INGREDIENTS.txt` contains all valid `{ingredients}` values.
+
+## 📊 Data Visualization (Optional)
+You can extend this skill by integrating a companion dashboard that visualizes your most-used ingredients or recipe trends using the stored DynamoDB data.
+
+## 💡 Future Improvements
+- 🧑‍🍳 **Multi-Ingredient Slots**: Support multi-word ingredients (e.g. `olive oil`).
+- 🎛️ **User Profiles**: Store dietary preferences and restrictions.
+- 🌐 **Globalization**: Add multi-language support.
+- 🧪 **Unit Tests**: Automate handler tests with Mocha or Jest.
+
